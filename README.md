@@ -1,52 +1,126 @@
-# DBMS Practical — College Database System
+# DBMS College Database Practical
 
-A professional MySQL practical project covering database design, DDL, DML, joins, aggregation, subqueries, views, database administration, roles, privileges, and indexes.
+A MySQL-based **Database Management System (DBMS) practical project** implementing a college database with students, courses, admissions, and societies.
 
-## Project Overview
+## 📌 Project Overview
 
-This repository implements a college database with four core entities:
+This project demonstrates the practical implementation of a college database system using **MySQL**.
 
-- `STUDENT` — student details
-- `COURSE` — course details
-- `SOCIETY` — college societies
-- `ADMISSION` — student-course admissions
-- `ENROLLMENT` — student-society memberships
+The database consists of four main entities and two relationship tables:
 
-The project is based on the prescribed practical work in `Practicals.pdf`.
+- **STUDENT** — Stores student information.
+- **COURSE** — Stores course details such as seats, duration, type, and teacher.
+- **SOCIETY** — Stores college society information.
+- **ADMISSION** — Connects students with the courses they are admitted to.
+- **ENROLLMENT** — Connects students with college societies.
 
-## Repository Structure
+## 🗂️ Repository Structure
 
 ```text
-dbms-practical/
+dbms-college-database-practical/
+│
 ├── sql/
 │   ├── 01_schema.sql
 │   ├── 02_sample_data.sql
 │   ├── 03_queries.sql
 │   └── 04_administration.sql
-├── docs/
-│   ├── viva.md
-│   └── additional-practice.md
+│
 ├── README.md
 ├── .gitignore
 └── LICENSE
 ```
 
-## Requirements
+## 🛠️ Technologies Used
 
-- MySQL 8.0+
-- MySQL Shell or MySQL Workbench
+- **MySQL**
+- SQL
+- Relational Database Management System (RDBMS)
 
-## Quick Start
+## 🗄️ Database Schema
 
-### 1. Create the database and tables
+### STUDENT
 
-Run:
+| Column | Description |
+|---|---|
+| `Rollno` | Primary key |
+| `Name` | Student name |
+| `Dateofbirth` | Date of birth |
+
+### COURSE
+
+| Column | Description |
+|---|---|
+| `SID` | Primary key |
+| `Cname` | Course name |
+| `TotalSeats` | Total available seats |
+| `Duration` | Course duration |
+| `Coursetype` | Full-time / Part-time |
+| `TeacherInCharge` | Course teacher |
+
+### SOCIETY
+
+| Column | Description |
+|---|---|
+| `SocID` | Primary key |
+| `Socname` | Society name |
+| `Mentor` | Society mentor |
+| `TotalSeats` | Society capacity |
+
+### ADMISSION
+
+Connects students with courses using the composite primary key:
+
+```sql
+(Rollno, SID)
+```
+
+### ENROLLMENT
+
+Connects students with societies using:
+
+```sql
+(Rollno, SocID)
+```
+
+## 🔑 Database Concepts Demonstrated
+
+- Primary Keys
+- Foreign Keys
+- Composite Primary Keys
+- Unique Constraints
+- Check Constraints
+- `ON DELETE CASCADE`
+- `ON DELETE RESTRICT`
+- `INNER JOIN`
+- `LEFT JOIN`
+- `DISTINCT`
+- `WHERE`
+- `HAVING`
+- Aggregate Functions
+- Subqueries
+- `EXISTS` / `NOT EXISTS`
+- `UNION`
+- `GROUP BY`
+- `ORDER BY`
+- `LIMIT`
+- `UPDATE`
+- `ALTER TABLE`
+- Views
+- Users and Roles
+- `GRANT` / `REVOKE`
+- Indexes
+- Composite Indexes
+- `EXPLAIN`
+
+## 🚀 How to Run
+
+### 1. Create the database
 
 ```sql
 SOURCE sql/01_schema.sql;
 ```
 
-### 2. Load sample data
+### 2. Insert sample data
 
 ```sql
 SOURCE sql/02_sample_data.sql;
@@ -58,42 +132,77 @@ SOURCE sql/02_sample_data.sql;
 SOURCE sql/03_queries.sql;
 ```
 
-### 4. Administration practice
+### 4. Administration commands
 
-The commands in `sql/04_administration.sql` create users/roles and modify privileges. Run them only on a local practice MySQL server where you have administrative privileges.
+```sql
+SOURCE sql/04_administration.sql;
+```
 
-## Key DBMS Concepts Demonstrated
+Run the administration file only with appropriate MySQL administrative privileges.
 
-- Primary and foreign keys
-- Composite primary keys
-- `UNIQUE` and `CHECK` constraints
-- `ON DELETE CASCADE` and `ON DELETE RESTRICT`
-- Inner and left joins
-- `DISTINCT`
-- `WHERE` vs `HAVING`
-- Aggregate functions
-- Subqueries and `EXISTS` / `NOT EXISTS`
-- `UNION`
-- Views
-- `ALTER TABLE`
-- `UPDATE`
-- MySQL users and roles
-- `GRANT` / `REVOKE`
-- Indexes and composite indexes
-- `EXPLAIN`
+## 📊 Important Query Concepts
 
-## Important Design Decisions
+### `WHERE` vs `HAVING`
 
-`ADMISSION` uses `(Rollno, SID)` as a composite primary key so that the same student cannot be admitted to the same course more than once.
+`WHERE` filters individual rows, while `HAVING` filters groups after aggregation.
 
-`ENROLLMENT` similarly uses `(Rollno, SocID)` to prevent duplicate student-society memberships.
+### Why `LEFT JOIN`?
 
-`LEFT JOIN` is intentionally used in queries such as vacant-seat reporting so courses with zero students are not lost.
+`LEFT JOIN` is important when records with zero matching rows must still appear, such as courses having no students.
 
-## Viva Preparation
+### Why `COUNT(column)` instead of `COUNT(*)`?
 
-The `docs/viva.md` file contains the 20 viva questions listed in the practical material, with concise preparation points.
+With a `LEFT JOIN`, an unmatched row contains `NULL` values. `COUNT(column)` ignores that `NULL`, correctly giving zero.
 
-## Source
+### Why `NOT EXISTS`?
 
-Prepared from the supplied DBMS practical material, including the schema, 25 prescribed queries, administration commands, additional exercises, and viva checklist.
+`NOT EXISTS` is useful when the requirement contains **"only"**, because it checks that no unwanted counter-example exists.
+
+## 🔐 Database Security
+
+The project demonstrates:
+
+```sql
+CREATE USER
+CREATE ROLE
+GRANT
+REVOKE
+DROP ROLE
+```
+
+It also includes role-based and column-level privileges.
+
+## 📈 Indexing
+
+The project demonstrates:
+
+```sql
+CREATE INDEX
+CREATE UNIQUE INDEX
+SHOW INDEX
+EXPLAIN
+DROP INDEX
+```
+
+It also includes a composite index:
+
+```sql
+(SID, Dateofadmission)
+```
+
+## 🎯 Purpose
+
+This repository is intended for:
+
+- DBMS practical examinations
+- SQL practice
+- MySQL laboratory work
+- Database design practice
+- Understanding joins and subqueries
+- Academic portfolio demonstration
+
+## 👨‍💻 Author
+
+**DBMS Practical Project**
+
+*Academic project — Database Management Systems*
